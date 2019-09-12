@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake
+from conans import ConanFile, CMake, tools
 import os
 
 class ZBarTestConan(ConanFile):
@@ -11,7 +11,6 @@ class ZBarTestConan(ConanFile):
         cmake.build()
 
     def test(self):
-        qr_code_sample_path = '../../sample_matrix.bin'
-
-        print(os.curdir)
-        self.run(os.path.join(os.curdir, 'bin', 'testApp') + ' ' + qr_code_sample_path)
+        if not tools.cross_building(self.settings):
+            qr_code_sample_path = '../../sample_matrix.bin'
+            self.run(os.path.join(os.curdir, 'bin', 'testApp') + ' ' + qr_code_sample_path)

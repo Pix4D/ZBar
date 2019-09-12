@@ -20,9 +20,8 @@ namespace
         in.read(reinterpret_cast<char*>(&rows), sizeof(unsigned long));
         in.read(reinterpret_cast<char*>(&cols), sizeof(unsigned long));
 
-        auto matrixBuffer = std::unique_ptr<uint8_t[]>(new uint8_t[rows * cols]);
+        std::unique_ptr<uint8_t[]> matrixBuffer{new uint8_t[rows * cols]};
         in.read(reinterpret_cast<char*>(&matrixBuffer[0]), rows * cols * sizeof(uint8_t));
-        in.close();
         return matrixBuffer;
     }
 }  // namespace
