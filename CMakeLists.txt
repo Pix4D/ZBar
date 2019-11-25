@@ -96,6 +96,7 @@ endif()
 target_include_directories(zbar
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
     PRIVATE
         zbar
         zbar/qrcode

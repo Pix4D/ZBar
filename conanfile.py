@@ -30,8 +30,6 @@ class ZBarConan(ConanFile):
         cmake.build(target='install')
 
     def package_info(self):
+        self.cpp_info.includedirs = ['include']  # Ordered list of include paths
+        self.cpp_info.libdirs = ['lib']  # Directories where libs are located
         self.cpp_info.libs = ['zbar']
-
-        if self.settings.os == 'Linux' and not self.options.shared:
-            self.cpp_info.libs.append('pthread')
-
