@@ -102,7 +102,7 @@ target_include_directories(zbar
         zbar/decoder
 )
 
-install(TARGETS zbar
+install(TARGETS zbar EXPORT zbarTargets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
@@ -111,7 +111,19 @@ install(
     FILES include/zbar.h
     DESTINATION include/zbar
 )
-install(
-    FILES Findzbar.cmake
-    DESTINATION share/cmake
+# Package configuration
+set(configPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/zbar)
+set(inputConfigFile "${CMAKE_CURRENT_SOURCE_DIR}/cmake/zbarConfig.cmake")
+set(outputConfigFile "${CMAKE_CURRENT_BINARY_DIR}/zbarConfig.cmake")
+    configure_file(${inputConfigFile} ${outputConfigFile} @ONLY)
+install(FILES ${outputConfigFile}
+        DESTINATION ${configPackageLocation}
+)
+export(EXPORT zbarTargets
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/zbarTargets.cmake"
+    NAMESPACE zbar::
+)
+install(EXPORT zbarTargets
+    NAMESPACE zbar::
+    DESTINATION ${configPackageLocation}
 )

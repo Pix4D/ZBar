@@ -11,10 +11,10 @@ class ZBarConan(ConanFile):
     url = 'git@github.com:Pix4D/ZBar.git'
     license = 'LGPL LICENSE'
     generators = 'cmake'
-    exports = ['Findzbar.cmake']
     exports_sources = [
             'zbar/*',
             'include/*',
+            'cmake/*',
             'CMakeLists.txt',
             ]
     options = {
