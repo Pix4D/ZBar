@@ -5,16 +5,14 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-option(BUILD_SHARED_LIBS "Build shared library" ON)
-
 set(CMAKE_THREAD_PREFER_PTHREAD ON)
 find_package(Threads QUIET)
 
-FIND_FILE(HAVE_INTTYPES_H "inttypes.h" DOC "inttypes.h exists")
-FIND_FILE(HAVE_FEATURES_H "features.h" DOC "features.h exists")
-FIND_FILE(HAVE_POLL_H "poll.h" DOC "poll.h exists")
+find_file(HAVE_INTTYPES_H "inttypes.h" DOC "inttypes.h exists")
+find_file(HAVE_FEATURES_H "features.h" DOC "features.h exists")
+find_file(HAVE_POLL_H "poll.h" DOC "poll.h exists")
 
-set(SOURCE_FILES
+add_library(zbar
     zbar/decoder/qr_finder.c
     zbar/qrcode/qrdec.c
     zbar/qrcode/qrdectxt.c
@@ -39,9 +37,7 @@ set(SOURCE_FILES
     zbar/video/null.c
     zbar/processor/null.c
     zbar/window/null.c
-)
 
-set(HEADER_FILES
     include/zbar.h
     zbar/decoder/qr_finder.h
     zbar/qrcode.h
@@ -66,8 +62,6 @@ set(HEADER_FILES
     zbar/decoder.h
     zbar/processor/posix.h
 )
-
-add_library(zbar ${SOURCE_FILES} ${HEADER_FILES})
 target_compile_definitions(zbar
     PRIVATE
         ENABLE_QRCODE

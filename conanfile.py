@@ -24,7 +24,7 @@ class ZBarConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.definitions['BUILD_SHARED_LIBS'] = 'ON' if self.options.shared else 'OFF'
+        cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
 
         cmake.configure()
         cmake.build(target='install')
