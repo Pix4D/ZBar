@@ -23,7 +23,7 @@ class ZBarConan(ConanFile):
     default_options = 'shared=True'
 
     def build(self):
-        cmake = CMake(self)
+        cmake = CMake(self, parallel=True)
         cmake.definitions['BUILD_SHARED_LIBS'] = self.options.shared
 
         cmake.configure()
