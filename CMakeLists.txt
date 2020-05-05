@@ -107,8 +107,13 @@ install(
     DESTINATION include/zbar
 )
 # Package configuration
+if(THREADS_FOUND)
+    set(find_pkg_dependencies "find_dependency(Threads)")
+else()
+    set(find_pkg_dependencies "")
+endif()
 set(configPackageLocation ${CMAKE_INSTALL_LIBDIR}/cmake/zbar)
-set(inputConfigFile "${CMAKE_CURRENT_SOURCE_DIR}/cmake/zbarConfig.cmake")
+set(inputConfigFile "${CMAKE_CURRENT_SOURCE_DIR}/cmake/zbarConfig.cmake.in")
 set(outputConfigFile "${CMAKE_CURRENT_BINARY_DIR}/zbarConfig.cmake")
     configure_file(${inputConfigFile} ${outputConfigFile} @ONLY)
 install(FILES ${outputConfigFile}
@@ -118,6 +123,7 @@ export(EXPORT zbarTargets
     FILE "${CMAKE_CURRENT_BINARY_DIR}/zbarTargets.cmake"
     NAMESPACE zbar::
 )
+
 install(EXPORT zbarTargets
     NAMESPACE zbar::
     DESTINATION ${configPackageLocation}
