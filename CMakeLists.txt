@@ -7,10 +7,12 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 set(CMAKE_THREAD_PREFER_PTHREAD ON)
 find_package(Threads QUIET)
+find_package(Iconv QUIET)
 
 find_file(HAVE_INTTYPES_H "inttypes.h" DOC "inttypes.h exists")
 find_file(HAVE_FEATURES_H "features.h" DOC "features.h exists")
 find_file(HAVE_POLL_H "poll.h" DOC "poll.h exists")
+find_file(HAVE_SYS_TIME_H "sys/time.h" DOC "sys/time.h exists")
 
 add_library(zbar
     zbar/decoder/qr_finder.c
@@ -79,6 +81,9 @@ endif()
 if (HAVE_POLL_H)
     target_compile_definitions(zbar PRIVATE HAVE_POLL_H=1)
 endif()
+if (HAVE_SYS_TIME_H)
+    target_compile_definitions(zbar PRIVATE HAVE_SYS_TIME_H=1)
+endif()
 if(THREADS_FOUND)
     target_compile_definitions(zbar PRIVATE HAVE_LIBPTHREAD=1)
     target_link_libraries(zbar
@@ -86,7 +91,12 @@ if(THREADS_FOUND)
             Threads::Threads
     )
 endif()
-
+if (ICONV_FOUND)
+    target_link_libraries(zbar
+        PRIVATE
+            Iconv::Iconv
+    )
+endif()
 target_include_directories(zbar
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
