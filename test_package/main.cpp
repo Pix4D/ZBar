@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace
@@ -20,7 +21,7 @@ namespace
         in.read(reinterpret_cast<char*>(&rows), sizeof(unsigned long));
         in.read(reinterpret_cast<char*>(&cols), sizeof(unsigned long));
 
-        std::unique_ptr<uint8_t[]> matrixBuffer{new uint8_t[rows * cols]};
+        std::unique_ptr<uint8_t[]> matrixBuffer{ new uint8_t[rows * cols] };
         in.read(reinterpret_cast<char*>(&matrixBuffer[0]), rows * cols * sizeof(uint8_t));
         return matrixBuffer;
     }
@@ -32,7 +33,7 @@ int main(int ac, char** av)
     const std::vector<std::string> imagePaths(av + 1, av + ac);
 
     auto processor = std::unique_ptr<zbar_processor_t, decltype(&zbar_processor_destroy)>(zbar_processor_create(0),
-                                                                                          zbar_processor_destroy);
+        zbar_processor_destroy);
     if (zbar_processor_init(processor.get(), NULL, 0))
     {
         std::cout << "Could not init processor " << std::endl;

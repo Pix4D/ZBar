@@ -26,6 +26,8 @@
 #include "image.h"
 #include "img_scanner.h"
 
+#include <inttypes.h>
+
 static inline int proc_enter (zbar_processor_t *proc)
 {
     _zbar_mutex_lock(&proc->mutex);

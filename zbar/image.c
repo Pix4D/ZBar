@@ -25,6 +25,8 @@
 #include "image.h"
 #include "refcnt.h"
 
+#include <inttypes.h>
+
 zbar_image_t *zbar_image_create ()
 {
     zbar_image_t *img = calloc(1, sizeof(zbar_image_t));

@@ -26,7 +26,9 @@
 #ifdef HAVE_INTTYPES_H
 # include <inttypes.h>
 #endif
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include <stdlib.h>
 #include <string.h>
 

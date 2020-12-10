@@ -1,6 +1,5 @@
 from conans import ConanFile, CMake, tools
 
-
 class ZBarConan(ConanFile):
     name = 'zbar'
     lib_version = '0.23.0'
@@ -9,7 +8,7 @@ class ZBarConan(ConanFile):
     settings = 'os', 'compiler', 'build_type', 'arch'
     description = 'ZBar QR Code Reader'
     url = 'git@github.com:Pix4D/ZBar.git'
-    license = 'LGPL LICENSE'
+    license = 'LGPL'
     generators = 'cmake'
     exports_sources = [
             'zbar/*',
@@ -21,6 +20,10 @@ class ZBarConan(ConanFile):
             'shared' : [True, False],
             }
     default_options = 'shared=True'
+
+    def requirements(self):
+        if self.settings.os == 'Windows':
+            self.requires('libiconv/1.15.0-0@pix4d/stable')
 
     def build(self):
         cmake = CMake(self, parallel=True)

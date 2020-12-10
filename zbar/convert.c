@@ -25,6 +25,8 @@
 #include "video.h"
 #include "window.h"
 
+#include <inttypes.h>
+
 /* pack bit size and location offset of a component into one byte
  */
 #define RGB_BITS(off, size) ((((8 - (size)) & 0x7) << 5) | ((off) & 0x1f))
