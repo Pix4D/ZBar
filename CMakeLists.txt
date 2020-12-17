@@ -2,11 +2,13 @@ project(zbar_qrcode)
 cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_set_find_paths()
+conan_set_std()
+conan_set_libcxx()
+
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 set(CMAKE_THREAD_PREFER_PTHREAD ON)
 find_package(Threads QUIET)
