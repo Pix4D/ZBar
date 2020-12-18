@@ -36,3 +36,8 @@ class ZBarConan(ConanFile):
         self.cpp_info.includedirs = ['include']  # Ordered list of include paths
         self.cpp_info.libdirs = ['lib']  # Directories where libs are located
         self.cpp_info.libs = ['zbar']
+
+    def package_id(self):
+        # Make all options and dependencies (direct and transitive) contribute
+        # to the package id
+        self.info.requires.full_package_mode()
