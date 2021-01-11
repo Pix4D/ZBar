@@ -10,17 +10,18 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace
 {
-    std::unique_ptr<uint8_t[]> readBinary(const char* filename, unsigned long& rows, unsigned long& cols)
+    std::unique_ptr<uint8_t[]> readBinary(const char* filename, uint64_t& rows, uint64_t& cols)
     {
         std::ifstream in(filename, std::ios::in | std::ios::binary);
-        in.read(reinterpret_cast<char*>(&rows), sizeof(unsigned long));
-        in.read(reinterpret_cast<char*>(&cols), sizeof(unsigned long));
+        in.read(reinterpret_cast<char*>(&rows), sizeof(uint64_t));
+        in.read(reinterpret_cast<char*>(&cols), sizeof(uint64_t));
 
-        std::unique_ptr<uint8_t[]> matrixBuffer{new uint8_t[rows * cols]};
+        std::unique_ptr<uint8_t[]> matrixBuffer{ new uint8_t[rows * cols] };
         in.read(reinterpret_cast<char*>(&matrixBuffer[0]), rows * cols * sizeof(uint8_t));
         return matrixBuffer;
     }
@@ -43,7 +44,7 @@ int main(int ac, char** av)
         std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
         std::cout << "Detecting QR code in image " << path << std::endl;
 
-        unsigned long rows = 0, cols = 0;
+        uint64_t rows = 0, cols = 0;
         auto myMatrix = readBinary(path.c_str(), rows, cols);
 
         auto zimage =
@@ -64,7 +65,10 @@ int main(int ac, char** av)
             {
                 const char* data = zbar_symbol_get_data(sym);
                 std::cout << "QR code text: " << data << std::endl;
+                return 0;
             }
         }
     }
+
+    return 1;
 }

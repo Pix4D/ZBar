@@ -2,7 +2,12 @@ project(zbar_qrcode)
 cmake_minimum_required(VERSION 3.10)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_set_find_paths()
+conan_set_std()
+conan_set_libcxx()
+
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 set(CMAKE_THREAD_PREFER_PTHREAD ON)
@@ -23,7 +28,9 @@ add_library(zbar
     zbar/qrcode/bch15_5.c
     zbar/qrcode/binarize.c
     zbar/qrcode/util.c
-    zbar/processor/posix.c
+    $<IF:$<PLATFORM_ID:Windows>,
+         zbar/processor/win.c,
+         zbar/processor/posix.c>
     zbar/symbol.c
     zbar/image.c
     zbar/video.c
@@ -37,7 +44,7 @@ add_library(zbar
     zbar/convert.c
     zbar/error.c
     zbar/video/null.c
-    zbar/processor/null.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:zbar/processor/null.c>
     zbar/window/null.c
 
     include/zbar.h
@@ -62,7 +69,7 @@ add_library(zbar
     zbar/video.h
     zbar/img_scanner.h
     zbar/decoder.h
-    zbar/processor/posix.h
+    $<$<NOT:$<PLATFORM_ID:Windows>>:zbar/processor/posix.h>
 )
 target_compile_definitions(zbar
     PRIVATE
@@ -84,6 +91,7 @@ endif()
 if (HAVE_SYS_TIME_H)
     target_compile_definitions(zbar PRIVATE HAVE_SYS_TIME_H=1)
 endif()
+
 if(THREADS_FOUND)
     target_compile_definitions(zbar PRIVATE HAVE_LIBPTHREAD=1)
     target_link_libraries(zbar
@@ -95,6 +103,12 @@ if (ICONV_FOUND)
     target_link_libraries(zbar
         PRIVATE
             Iconv::Iconv
+    )
+endif()
+if (WIN32)
+    target_link_libraries(zbar
+        PRIVATE
+            winmm
     )
 endif()
 target_include_directories(zbar
