@@ -2,7 +2,7 @@ from conans import ConanFile, CMake, tools
 
 class ZBarConan(ConanFile):
     name = 'zbar'
-    lib_version = '0.23.0'
+    lib_version = '0.23.93'
     revision = '0'
     version = '{}-{}'.format(lib_version, revision)
     settings = 'os', 'compiler', 'build_type', 'arch'
