@@ -28,13 +28,14 @@ DISTCLEANFILES += $(nodist_zbarcam_zbarcam_qt_SOURCES) zbarcam/moc_zbarcam_qt.h
 
 
 zbarcam/moc_zbarcam_qt.h: zbarcam/zbarcam-qt.cpp
+	$(mkdir_p) zbarcam
 	$(MOC) -i $(zbarcam_zbarcam_qt_CPPFLAGS) $< -o $@
 endif
 
 
 if WIN32
 zbarcam_zbarcam_SOURCES += zbarcam/zbarcam.rc
-zbarcam_zbarcam_LDADD += zbarcam/zbarcam-rc.o
+zbarcam_zbarcam_LDADD += zbarcam/zbarcam-rc.o @LTLIBINTL@
 
 if WITH_DIRECTSHOW
 zbarcam_zbarcam_CPPFLAGS += -DDIRECTSHOW
