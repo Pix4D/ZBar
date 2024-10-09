@@ -1,11 +1,29 @@
 ACLOCAL_AMFLAGS = -I config
+AM_CFLAGS += -DLOCALEDIR=\"$(localedir)\"
+AM_CXXFLAGS += -DLOCALEDIR=\"$(localedir)\"
 bin_PROGRAMS =
 check_PROGRAMS =
 EXTRA_PROGRAMS =
 lib_LTLIBRARIES =
 pyexec_LTLIBRARIES =
 CLEANFILES =
-DISTCLEANFILES =
+DISTCLEANFILES = \
+	ABOUT-NLS \
+	po/*.gmo \
+	po/*.mo \
+	po/Makefile.in.in \
+	po/Makevars.template \
+	po/POTFILES \
+	po/Rules-quot \
+	po/boldquot.sed \
+	po/en@boldquot.header \
+	po/en@quot.header \
+	po/insert-header.sin \
+	po/quot.sed \
+	po/remove-potcdate.sed \
+	po/remove-potcdate.sin \
+	po/stamp-po \
+	po/zbar.pot
 MAINTAINERCLEANFILES =
 BUILT_SOURCES =
 EXTRA_DIST =
@@ -19,6 +37,11 @@ dist_doc_DATA = COPYING HACKING.md INSTALL.md LICENSE.md NEWS.md README.md TODO.
 include $(srcdir)/include/Makefile.am.inc
 
 SUBDIRS = zbar
+
+if USE_NLS
+  SUBDIRS += po
+  dist_doc_DATA += ABOUT-NLS
+endif
 
 zbar/libzbar.la:
 	$(MAKE) -C @builddir@/zbar libzbar.la
@@ -67,10 +90,10 @@ endif
 if HAVE_DBUS
 dbusconfdir = @DBUS_CONFDIR@
 dbusconf_DATA = $(srcdir)/dbus/org.linuxtv.Zbar.conf
-EXTRA_DIST += $(dbusconf_DATA)
 endif
 
-EXTRA_DIST += zbar.ico zbar.nsi
+EXTRA_DIST += zbar.ico zbar.nsi zbar-qt5.pc.in \
+    dbus/org.linuxtv.Zbar.conf
 
 EXTRA_DIST += examples/*.png examples/sha1sum \
     examples/upcrpc.py examples/upcrpc.pl \

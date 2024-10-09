@@ -7,7 +7,7 @@ intensity sensors. It supports EAN-13/UPC-A, UPC-E, EAN-8, Code 128,
 Code 93, Code 39, Codabar, Interleaved 2 of 5, QR Code and SQ Code.
 
 Included with the library are basic applications for decoding captured bar
-code images and using a video device (eg, webcam) as a bar code scanner.
+code images and using a video device (e.g. webcam) as a bar code scanner.
 For application developers, language bindings are included for C, C++,
 Python 2 and Perl as well as GUI widgets for Qt, GTK and PyGTK 2.0.
 
@@ -22,6 +22,19 @@ Tarballs with ZBar can be obtained from:
 
 - <https://linuxtv.org/downloads/zbar/>
 
+Since ZBar version 0.23.90, binaries auto-generated from Github's
+Actions workflows are auto-generated for each release:
+
+- <https://linuxtv.org/downloads/zbar/binaries/>
+
+They contain binaries for:
+
+- Ubuntu SID, generated via pbuilder;
+- Mac OS;
+- Windows, for 4 different configurations:
+  - 32 bits/64 bits;
+  - Video for Windows (VfW) or DirectShow (DShow).
+
 License information can be found in `COPYING`.
 
 You may find some outdated documentation at the original ZBar's
@@ -35,23 +48,43 @@ BUILDING
 
 See `INSTALL.md` for generic configuration and build instructions.
 
-Usually, all you need to do is to run:
+Please notice that at least autotools related packages and a
+C compiler are needed, in order to generate the configure script.
 
-    autoreconf -vfi
-    ./configure
-    make
+So, on Debian, at least those packages are needed:
+	autoconf autopoint pkg-config libtool gcc make
 
-* NOTE
+If you have installed all needed dependencies, all you need to do is to run:
 
-  On version 0.23, since the support for gtk3 and python3 are new,
-  the default is to use gtk2 and python2.
+```
+autoreconf -vfi
+./configure
+make
+```
 
-  If you want to use gtk3 and python3, you should have the development
-  packages for them, and run:
 
-      autoreconf -vfi
-      ./configure --with-gtk=auto --with-python=auto
-      make
+* NOTES
+
+
+  1) Currently, we maintain a Continuous Integration build test at
+     TravisCI:
+
+        <https://travis-ci.org/github/mchehab/zbar/>
+
+     Due to that, there are scripts meant to test ZBar build on
+     Linux, Windows and MacOS, that could be helpful. Please see
+     the `.travis.yml` file, and the corresponding scripts under `travis/`.
+
+  2) On version 0.23, since the support for gtk3 and python3 are new,
+     the default is to use gtk2 and python2.
+
+     If you want to use gtk3 and python3, you should have the development
+     packages for them, and run:
+```
+autoreconf -vfi
+./configure --with-gtk=auto --with-python=auto
+make
+```
 
   This will make the building system to seek for the latest versions
   for gtk and python.
@@ -130,7 +163,7 @@ available at:
 
 **Python bindings**
 
-The Python bindings require Python 2 and provide only non-GUI functions.
+The Python bindings require Python 2 or 3 and provide only non-GUI functions.
 You will need Python and PIL or Pillow if you would like to scan images or
 video directly using Python. Python is available from:
 
